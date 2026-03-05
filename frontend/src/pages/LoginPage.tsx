@@ -6,6 +6,29 @@ import { useAuthStore } from '../context/authStore';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_]+$/;
 
+const getErrorMessage = (err: any, fallback: string): string => {
+  const payload = err?.response?.data?.error ?? err?.response?.data;
+
+  if (typeof payload === 'string' && payload.trim()) {
+    return payload;
+  }
+
+  if (payload && typeof payload === 'object') {
+    if (typeof payload.message === 'string' && payload.message.trim()) {
+      return payload.message;
+    }
+    if (typeof payload.code === 'string' && payload.code.trim()) {
+      return `Error: ${payload.code}`;
+    }
+  }
+
+  if (typeof err?.message === 'string' && err.message.trim()) {
+    return err.message;
+  }
+
+  return fallback;
+};
+
 export const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
@@ -45,7 +68,7 @@ export const LoginPage: React.FC = () => {
       setUser(response.data.user);
       navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError(getErrorMessage(err, 'Login failed'));
     } finally {
       setIsLoading(false);
     }
