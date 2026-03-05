@@ -1,0 +1,6 @@
+{
+  "extends": "@rushstack/eslint-config/strict",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
+}

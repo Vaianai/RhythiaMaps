@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  username  String  @unique
+  email     String  @unique
+  passwordHash String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  maps          Map[]
+  downloads     Download[]
+  ratings       Rating[]
+
+  @@index([email])
+  @@index([username])
+}
+
+model Map {
+  id              Int     @id @default(autoincrement())
+  title           String
+  artist          String
+  mapper          String
+  difficulty      Float
+  duration        Int     // milliseconds
+  bpm             Float?
+  noteCount       Int
+  fileUrl         String  // S3/R2 URL
+  coverUrl        String  // S3/R2 URL for cover image
+  description     String? @db.Text
+  tags            String? // JSON array stored as string
+  downloadCount   Int     @default(0)
+  weeklyDownloadCount Int @default(0)
+  ratingAvg       Float   @default(0)
+  ratingCount     Int     @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  uploaderId      Int
+
+  uploader        User @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  downloads       Download[]
+  ratings         Rating[]
+
+  @@index([uploaderId])
+  @@index([downloadCount])
+  @@index([weeklyDownloadCount])
+  @@index([createdAt])
+  @@index([ratingAvg])
+}
+
+model Download {
+  id        Int     @id @default(autoincrement())
+  mapId     Int
+  userId    Int?    // nullable for anonymous downloads
+  createdAt DateTime @default(now())
+
+  map       Map  @relation(fields: [mapId], references: [id], onDelete: Cascade)
+  user      User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([mapId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Rating {
+  id        Int     @id @default(autoincrement())
+  mapId     Int
+  userId    Int
+  rating    Int     // 1-5
+  comment   String? @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  map       Map  @relation(fields: [mapId], references: [id], onDelete: Cascade)
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([mapId, userId])
+  @@index([mapId])
+  @@index([userId])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}

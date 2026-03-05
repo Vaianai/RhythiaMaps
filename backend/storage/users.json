@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@example.com",
+    "passwordHash": "$2a$10$xKe5sSryhX8zK4EzF0ZXKOTKd5iqr8Cv0YBKRvJQXn8u6.tKXR5RO",
+    "role": "ADMIN",
+    "createdAt": "2026-03-05T17:42:08.281Z",
+    "updatedAt": "2026-03-05T17:42:08.281Z"
+  },
+  {
+    "id": 2,
+    "username": "testuser",
+    "email": "test@example.com",
+    "passwordHash": "$2a$10$xKe5sSryhX8zK4EzF0ZXKOTKd5iqr8Cv0YBKRvJQXn8u6.tKXR5RO",
+    "role": "USER",
+    "createdAt": "2026-03-05T17:42:08.281Z",
+    "updatedAt": "2026-03-05T17:42:08.281Z"
+  },
+  {
+    "id": 3,
+    "username": "Kiri",
+    "email": "kiri@local.user",
+    "passwordHash": "$2a$10$xx8sGtcKG93BwjgifVYFBe8V1j4PobmywdZDs4efMDWw.gWwjAIx6",
+    "role": "USER",
+    "createdAt": "2026-03-05T17:48:49.364Z",
+    "updatedAt": "2026-03-05T17:48:49.364Z"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "title": "Help urself",
+  "artist": "Kiri",
+  "mapper": "Kiri",
+  "difficulty": 5.5,
+  "bpm": 120,
+  "duration": 180000,
+  "noteCount": 350,
+  "notes": [
+    {"time": 0, "key": "A", "duration": 500},
+    {"time": 500, "key": "B", "duration": 500},
+    {"time": 1000, "key": "C", "duration": 250}
+  ]
+}
